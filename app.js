@@ -43,36 +43,35 @@ app.post('/login', (req, res) => {
   }
 });
 
-//post for adding item to array
+//color array
 color = ['red', 'orange', 'yellow', 'green', 'blue'];
 
+//deleting an item
+app.delete('/color/:item', (req, res, next) => {
+  const item = req.params.item;
+  const ifRainbow = color.indexOf(item);
+  if(ifRainbow != -1) {
+      color.splice(ifRainbow, 1);
+    res.json(`You deleted ${item}`);
+  } else {
+    res.status(406).json(`${item} not accepted, ${item} already exists`);
+    next();
+  }
+});
+
+//post for adding item to array
 app.post('/color/:item', (req,res, next) => {
   const item = req.params.item;
   const ifRainbow = color.indexOf(item);
-
-  if(ifRainbow == -1) { //if the item is not in the array, then add item to the array 
+  if(ifRainbow === -1) { //if the item is not in the array, then add item to the array 
     color.push(item);
     res.status(202).json(`You successfully added ${item} to the rainbow!`);
   } else {
     res.status(409).json(`Error 409, ${item} already exists`); //look up a different status code or add another else 
-  
     next();
   } 
-  
 });
   
-//deleting an item
-app.delete('/color/:item', (req,res) => {
-  const item = req.params.item;
-  const ifRainbow = color.indexOf(item);
-  if (ifRainbow != -1) {
-    color.splice(ifRainbow, 1);
-    res.json(`You deleted ${item}`);
-  } else {
-    res.status(406).json(`${item} not accepted, ${item} already exists`);
-  }
-});
-
 
 //port
 const port = process.env.PORT || 5000 
