@@ -18,13 +18,23 @@ app.get('/test/greet/:string', (req,res) => {
     res.send(`<h1>Hello there, ${string}</h1>`)
 })
 
+
 //two numbers
 app.get('/test/subtract', (req, res) => {  //to use: /test/subtract?num1=x&num2=y
+   let word = req.query.word;
+   if (word != undefined) {
+     word = word.split('').join(' ');
+     console.log(word)
+     res.status(202).send(`<h1> You chose a word, ${word} here is your spelled out word: ${word}</h1>`)
+} else {
    const num1 = parseInt(req.query.num1, 10);
    const num2 = parseInt(req.query.num2, 10);
-   res.send(`<h1>Here is your result: ${num1} minus ${num2} is ${num1 - num2}</h1>`)
-})
-
+   if (num1 === num1 & num2 === num2) {
+   res.send(`<h1>Here is your result: ${num1} minus ${num2} is ${num1 - num2}</h1>`);
+      } 
+     }
+   });
+        
 //post route that accepts a username and password 
 app.post('/test/user', (req,res) => {
     const string = req.params.string; 
